@@ -31,16 +31,19 @@ FILE* hap_configuration_file(HAPEngine *engine, char *fileName) {
     FILE* stream = NULL;
     errno_t error = fopen_s(&stream, fileName, "r");
 
-    if (error != 0) {
-        if ((error = strerror_s(errorMessage, MAX_ERROR_LENGTH, error)) != 0) {
-            (*engine).log_error(engine, "Failed to load configuration file(%s): %s");
-        }
+    if (error == 0) return stream;
 
-        (*engine).log_error(engine, "Failed to load configuration file(%s): %s", fileName, errorMessage);
-        return NULL;
+    if ((error = strerror_s(errorMessage, MAX_ERROR_LENGTH, error)) != 0) {
+        (*engine).log_error(
+            engine,
+            "Failed to load configuration file(%s): %d",
+            fileName,
+            error
+        );
     }
 
-    return stream;
+    (*engine).log_error(engine, "Failed to load configuration file(%s): %s", fileName, errorMessage);
+    return NULL;
 }
 
 
