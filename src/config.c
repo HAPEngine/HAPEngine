@@ -93,7 +93,10 @@ int hap_configuration_token_next(FILE *file, HAPConfigurationToken *token) {
 
         if (valueIndex == allocatedValueSize-1) {
             // Grow option buffer by ALLOCATED_TOKEN_VALUE_BUFFER_SIZE
-            allocatedValueSize = (valueIndex % HAP_CONFIG_TOKEN_VALUE_BUFFER_SIZE ) * HAP_CONFIG_TOKEN_VALUE_BUFFER_SIZE * sizeof(char);
+            allocatedValueSize = (
+                valueIndex % HAP_CONFIG_TOKEN_VALUE_BUFFER_SIZE
+            ) * HAP_CONFIG_TOKEN_VALUE_BUFFER_SIZE * sizeof(char);
+
             (*token).value = realloc((*token).value, allocatedValueSize);
             if ((*token).value == NULL) return 1;
         }
@@ -110,6 +113,7 @@ int hap_configuration_token_next(FILE *file, HAPConfigurationToken *token) {
 
     return 0;
 }
+
 
 char *hap_configuration_filename(HAPEngine *engine, char *identifier) {
     int fileNameLength;
