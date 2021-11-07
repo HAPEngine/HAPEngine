@@ -5,7 +5,7 @@
 #include "logging.h"
 
 
-#define LOGLEVEL(fn, constant, io) bool fn(HAPEngine *engine, char *message, ...) { \
+#define LOGLEVEL(fn, constant, io) bool fn(const HAPEngine *const engine, char *message, ...) { \
     va_list arguments;                                                                      \
     va_start(arguments, message);                                                           \
     if (!hap_log_necessary(engine, constant)) return false;                      \
@@ -15,12 +15,12 @@
 }
 
 
-bool hap_log_necessary(HAPEngine *engine, HAPLogLevel level) {
+bool hap_log_necessary(const HAPEngine *const engine, HAPLogLevel level) {
     return (*engine).logLevel >= level;
 }
 
 
-void hap_log(HAPEngine *engine, FILE *dest, char *message, va_list arguments) {
+void hap_log(const HAPEngine *const engine, FILE *dest, char *message, va_list arguments) {
     char *strBuffer;
     int length;
     va_list checkLengthArguments;
@@ -55,7 +55,7 @@ LOGLEVEL(hap_log_warning, LOGLEVEL_WARNING, stderr)
 LOGLEVEL(hap_log_error, LOGLEVEL_ERROR, stderr)
 
 
-void hap_log_fatal_error(HAPEngine *engine, int code, char *message, ...) {
+void hap_log_fatal_error(const HAPEngine *const engine, int code, char *message, ...) {
     va_list arguments;
     va_start(arguments, message);
     if (hap_log_necessary(engine, LOGLEVEL_FATAL)) hap_log(engine, stderr, message, arguments);
