@@ -251,9 +251,7 @@ HAPConfiguration* hap_configuration_load(HAPEngine *engine, char *identifier) {
             return NULL;
         }
 
-        if (token.type == FINISHED) {
-            break;
-        }
+        if (token.type == FINISHED) break;
 
         if (token.type == SECTION) {
             ++(*config).totalSections;
@@ -264,11 +262,11 @@ HAPConfiguration* hap_configuration_load(HAPEngine *engine, char *identifier) {
             if (section == NULL || (*config).sections == NULL) {
                 // TODO: This is in 3 places, we should probably abstract it?
                 (*engine).log_error(
-                        engine,
-                        "Failed to load section %d in configuration file %s\n",
-                        (*config).totalSections,
-                        fileName
-                        );
+                    engine,
+                    "Failed to load section %d in configuration file %s\n",
+                    (*config).totalSections,
+                    fileName
+                );
 
                 if (fileName != NULL) free(fileName);
                 fileName = NULL;
@@ -295,10 +293,10 @@ HAPConfiguration* hap_configuration_load(HAPEngine *engine, char *identifier) {
                 if ((*config).globals == NULL) {
                     // TODO: This is in 3 places, we can probably abstract it?
                     (*engine).log_error(
-                            engine,
-                            "Failed to allocate memory for global variable in config file: %s\n",
-                            fileName
-                            );
+                        engine,
+                        "Failed to allocate memory for global variable in config file: %s\n",
+                        fileName
+                    );
 
                     if (fileName != NULL) free(fileName);
                     fileName = NULL;
@@ -317,12 +315,15 @@ HAPConfiguration* hap_configuration_load(HAPEngine *engine, char *identifier) {
             }
 
         } else {
-            (*engine).log_warning(engine, "Unknown token found in configuration file: %s", fileName);
+            (*engine).log_warning(
+                engine,
+                "Unknown token found in configuration file: %s",
+                fileName
+            );
         }
     }
 
     fclose(file);
-
     return config;
 }
 
