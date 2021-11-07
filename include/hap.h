@@ -43,13 +43,16 @@ struct timeState {
 };
 
 struct HAPEngine {
-  void (*log)(HAPEngine *engine, FILE *dest, char *message, va_list arguments);
-  bool (*log_debug)(HAPEngine *engine, char *message, ...);
-  bool (*log_info)(HAPEngine *engine, char *message, ...);
-  bool (*log_notice)(HAPEngine *engine, char *message, ...);
-  bool (*log_warning)(HAPEngine *engine, char *message, ...);
-  bool (*log_error)(HAPEngine *engine, char *message, ...);
-  void (*log_fatal_error)(HAPEngine *engine, int code, char *message, ...);
+  void (*log)(const HAPEngine *const engine, FILE *dest, char *message,
+              va_list arguments);
+
+  bool (*log_debug)(const HAPEngine *const engine, char *message, ...);
+  bool (*log_info)(const HAPEngine *const engine, char *message, ...);
+  bool (*log_notice)(const HAPEngine *const engine, char *message, ...);
+  bool (*log_warning)(const HAPEngine *const engine, char *message, ...);
+  bool (*log_error)(const HAPEngine *const engine, char *message, ...);
+  void (*log_fatal_error)(const HAPEngine *const engine, int code,
+                          char *message, ...);
 
   char *name;
 

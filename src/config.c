@@ -36,13 +36,14 @@ FILE* hap_configuration_file(HAPEngine *engine, char *fileName) {
     if ((error = strerror_s(errorMessage, MAX_ERROR_LENGTH, error)) != 0) {
         (*engine).log_error(
             engine,
-            "Failed to load configuration file(%s): %d",
+            "Failed to load configuration file %s: %d",
             fileName,
             error
         );
+    } else {
+        (*engine).log_error(engine, "Failed to load configuration file(%s): %s", fileName, errorMessage);
     }
 
-    (*engine).log_error(engine, "Failed to load configuration file(%s): %s", fileName, errorMessage);
     return NULL;
 }
 
@@ -57,9 +58,7 @@ int hap_configuration_token_next(FILE *file, HAPConfigurationToken *token) {
     (*token).type = NONE;
     (*token).value = calloc(allocatedValueSize, sizeof(char));
 
-    if ((*token).value == NULL) {
-        return 1;
-    }
+    if ((*token).value == NULL) return 1;
 
     while (!feof(file)) {
         cursor = getc(file);
